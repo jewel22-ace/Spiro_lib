@@ -9,6 +9,10 @@ from matplotlib import pyplot as plt
 from scipy.signal import find_peaks
 import numpy as np
 import neurokit2 as nk
+import librosa
+import collections
+
+from scipy.stats import entropy
 
 class Spiro_feature :
     
@@ -358,6 +362,67 @@ class Spiro_feature :
             v.append(volume)
         
         return sum(v)
+    
+    def estimate_energy(signal, frame, hop):
+        energy = np.array([
+            sum(abs(signal[i:i+frame]**2))
+            for i in range(0, len(signal), hop)
+        ])
+        return energy
+    
+    def estimate_rms(signal, frame, hop):
+        rmse = librosa.feature.rms(signal, frame_length=frame, hop_length=hop, center=True)
+        return rmse[0]
+    
+    def estimate_mfccs(signal,sr):
+
+        # returns 13 features 
+
+        signal = np.array(signal)
+        mfccs = librosa.feature.mfcc(signal, n_mfcc=13, sr=sr)
+        delta_mfccs = librosa.feature.delta(mfccs)
+        delta2_mfccs = librosa.feature.delta(mfccs, order=2)
+        comprehensive_mfccs = np.concatenate((mfccs, delta_mfccs, delta2_mfccs))
+        return comprehensive_mfccs
+    
+    def estimate_shannon_entropy(signal):
+        bases = collections.Counter([tmp_base for tmp_base in signal])
+        
+        # define distribution
+        dist = [x/sum(bases.values()) for x in bases.values()]
+        
+    
+        # use scipy to calculate entropy
+        entropy_value = entropy(dist, base=2)
+    
+        return entropy_value
+    
+    def estimate_spectral_bandwidth(signal, sr):
+        spectral_bandwidth = librosa.feature.spectral_bandwidth(signal, sr=sr )
+        return spectral_bandwidth[0]
+
+    def estimate_central_centroid(signal, sr):
+        spectral_centroid = librosa.feature.spectral_centroid(signal, sr=sr )
+        return spectral_centroid[0]
+    
+    def estimate_spectral_rolloff(signal, sr):
+        spectral_rolloff = librosa.feature.spectral_rolloff(signal, sr=sr)
+        return spectral_rolloff[0]
+    
+    def estimate_zero_crossing(signal):
+        signal = np.array(signal)
+        zero_crossings = librosa.zero_crossings(signal)
+        return sum(zero_crossings)
+
+    def estimate_zero_crossing_rate(signal):
+        signal = np.array(signal)
+        zcrs = librosa.feature.zero_crossing_rate(signal)
+        return zcrs[0]
+    
+    
+
+    
+
 
     
 
