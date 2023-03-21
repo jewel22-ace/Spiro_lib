@@ -27,8 +27,11 @@ class Spiro_feature :
         Empty Default Constructor
         
         """
+
         
         pass
+
+
     
     
     def sig_filter(self,signal, sampling_rate=1000, lowcut=None, highcut=None, method='butterworth', order=2):
@@ -321,6 +324,43 @@ class Spiro_feature :
         
         return zero_hiting
     
+    def sig_FEV1(self,signal):
+        avg = len(signal) / float(5)
+        out = []
+        last = 0.0
+
+        while last < len(signal):
+            out.append(signal[int(last):int(last + avg)])
+            last += avg
+        
+        avg=sum(out[0]) / len(out[0])
+        num=((3.14159)*(0.0092**4)*(avg))
+        deno=(8*1.145*0.0035)
+        fev1=(num/deno)*1000
+        return fev1
+
+    def sig_FVC(self,signal):
+        avg = len(signal) / float(5)
+        out = []
+        last = 0.0
+
+        while last < len(signal):
+            out.append(signal[int(last):int(last + avg)])
+            last += avg
+        avg=[]
+        for x in out:
+            avg.append(sum(x)/len(x))
+        v=[]
+        for a in avg :
+            num=((3.14159)*(0.0092**4)*(a))
+            deno=(8*1.145*0.0035)
+            volume=(num/deno)*1000
+            v.append(volume)
+        
+        return sum(v)
+
+    
+
 
         
         
