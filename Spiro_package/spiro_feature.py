@@ -363,29 +363,30 @@ class Spiro_feature :
         
         return sum(v)
     
-    def estimate_energy(signal, frame, hop):
+    def estimate_energy(self,signal, frame, hop):
         energy = np.array([
             sum(abs(signal[i:i+frame]**2))
             for i in range(0, len(signal), hop)
         ])
         return energy
     
-    def estimate_rms(signal, frame, hop):
-        rmse = librosa.feature.rms(signal, frame_length=frame, hop_length=hop, center=True)
+    def estimate_rms(self,signal, frame, hop):
+        signal = np.array(signal)
+        rmse = librosa.feature.rms(y=signal, frame_length=frame, hop_length=hop, center=True)
         return rmse[0]
     
-    def estimate_mfccs(signal,sr):
+    def estimate_mfccs(self,signal,sr):
 
         # returns 13 features 
 
         signal = np.array(signal)
-        mfccs = librosa.feature.mfcc(signal, n_mfcc=13, sr=sr)
-        delta_mfccs = librosa.feature.delta(mfccs)
-        delta2_mfccs = librosa.feature.delta(mfccs, order=2)
+        mfccs = librosa.feature.mfcc(y=signal, n_mfcc=13, sr=sr)
+        delta_mfccs = librosa.feature.delta(mfccs,mode= 'constant')
+        delta2_mfccs = librosa.feature.delta(mfccs, order=2,mode='constant')
         comprehensive_mfccs = np.concatenate((mfccs, delta_mfccs, delta2_mfccs))
         return comprehensive_mfccs
     
-    def estimate_shannon_entropy(signal):
+    def estimate_shannon_entropy(self,signal):
         bases = collections.Counter([tmp_base for tmp_base in signal])
         
         # define distribution
@@ -397,29 +398,60 @@ class Spiro_feature :
     
         return entropy_value
     
-    def estimate_spectral_bandwidth(signal, sr):
-        spectral_bandwidth = librosa.feature.spectral_bandwidth(signal, sr=sr )
+    def estimate_spectral_bandwidth(self,signal, sr):
+        signal = np.array(signal)
+        spectral_bandwidth = librosa.feature.spectral_bandwidth(y=signal, sr=sr )
         return spectral_bandwidth[0]
 
-    def estimate_central_centroid(signal, sr):
-        spectral_centroid = librosa.feature.spectral_centroid(signal, sr=sr )
+    def estimate_central_centroid(self,signal, sr):
+        signal = np.array(signal)
+        spectral_centroid = librosa.feature.spectral_centroid(y=signal, sr=sr )
         return spectral_centroid[0]
     
-    def estimate_spectral_rolloff(signal, sr):
-        spectral_rolloff = librosa.feature.spectral_rolloff(signal, sr=sr)
+    def estimate_spectral_rolloff(self,signal, sr):
+        signal = np.array(signal)
+        spectral_rolloff = librosa.feature.spectral_rolloff(y=signal, sr=sr)
         return spectral_rolloff[0]
     
-    def estimate_zero_crossing(signal):
+    def estimate_zero_crossing(self,signal):
         signal = np.array(signal)
-        zero_crossings = librosa.zero_crossings(signal)
+        zero_crossings = librosa.zero_crossings(y=signal)
         return sum(zero_crossings)
 
-    def estimate_zero_crossing_rate(signal):
+    def estimate_zero_crossing_rate(self,signal):
         signal = np.array(signal)
-        zcrs = librosa.feature.zero_crossing_rate(signal)
+        zcrs = librosa.feature.zero_crossing_rate(y=signal)
         return zcrs[0]
     
+    def estimate_tempo(self,signal,sr):
+        signal = np.array(signal)
+        tempo=librosa.feature.tempo(y=signal,sr=sr)
+        return tempo
     
+    def estimate_spectral_bandwidth(self,signal,sr):
+        signal = np.array(signal)
+        spectral_bandwidth=librosa.feature.spectral_bandwidth(y=signal,sr=sr)
+        return spectral_bandwidth
+    
+    def estimate_spectral_contrast(self,signal,sr):
+        signal = np.array(signal)
+        spectral_contrast=librosa.feature.spectral_contrast(y=signal,sr=sr)
+        return spectral_contrast
+    
+    def estimate_spectral_flatness(self,signal):
+        signal = np.array(signal)
+        spectral_flatness=librosa.feature.spectral_flatness(y=signal)
+        return spectral_flatness
+    
+    def estimate_spectral_rolloff(sefl,signal,sr):
+        signal = np.array(signal)
+        spectral_rolloff=librosa.feature.spectral_rolloff(y=signal,sr=sr)
+        return spectral_rolloff
+
+    
+
+    
+
 
     
 
