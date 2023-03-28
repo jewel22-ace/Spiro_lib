@@ -33,18 +33,5 @@ w = Spiro.extract_wavelet(pd)
 #    plt.show()
 
 wavelet1 = w[0]
-
-print('1', feature.estimate_rms(wavelet1, 100, 2))
-print('2', feature.estimate_mfccs(wavelet1, 44100))
-print('3', feature.estimate_shannon_entropy(wavelet1))
-print('4', feature.estimate_spectral_bandwidth(wavelet1, 44100))
-print('5', feature.estimate_central_centroid(wavelet1, 44100))
-print('6', feature.estimate_spectral_rolloff(wavelet1, 44100))
-print('6', feature.estimate_zero_crossing(wavelet1))
-print('7', feature.estimate_zero_crossing_rate(wavelet1))
-print('8', feature.estimate_tempo(wavelet1, 44100))
-print('9', feature.estimate_spectral_bandwidth(wavelet1, 44100))
-print('10', feature.estimate_spectral_contrast(wavelet1, 44100))
-print('11', feature.estimate_spectral_flatness(wavelet1))
-print('12', feature.estimate_spectral_rolloff(wavelet1, 44100))
-
+wavelet2 = w[1]
+print(feature.sig_inspiratory_time(w[0], 351.2))
