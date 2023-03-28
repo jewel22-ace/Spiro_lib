@@ -444,8 +444,8 @@ class Spiro_feature:
 
     def sig_tidal_vol(self, signal):
 
-        return (sum([x for x in signal if x > 0])/len([x for x in signal if x > 0]))+(-1*(sum([x for x in signal if x < 0])/len([x for x in signal if x < 0])))
+        return round((sum([x for x in signal if x > 0])/len([x for x in signal if x > 0]))+(-1*(sum([x for x in signal if x < 0])/len([x for x in signal if x < 0]))), 2)
 
     def sig_inspiratory_time(self, signal, sr):
 
-        return len([x for x in signal if x < 0])/int(sr)
+        return round(len([x for x in signal if x < 0])/int(sr), 2)
