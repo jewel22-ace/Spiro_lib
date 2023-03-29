@@ -35,3 +35,7 @@ w = Spiro.extract_wavelet(pd)
 wavelet1 = w[0]
 wavelet2 = w[1]
 print(feature.sig_inspiratory_time(w[0], 351.2))
+print(feature.sig_expiratory_time(w[0], 351.2))
+print(feature.sig_tidal_vol(w[2]))
+
+print(feature.sig_inspiratory_flow_rate(w[0], 351.2))

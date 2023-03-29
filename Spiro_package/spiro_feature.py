@@ -435,6 +435,12 @@ class Spiro_feature:
 
     # ============================ BPAT =========================================
 
+    def volume(self, p_diff):
+        num = ((3.14159)*(0.0092**4)*(p_diff))
+        deno = (8*1.145*0.0035)
+        volume = (num/deno)*1000
+        return round(volume, 5)
+
     def sig_respiratory_rate(self, signal, sr):
 
         t = len(signal)/int(sr)
@@ -443,9 +449,27 @@ class Spiro_feature:
         return round((b/t)*60, 0)
 
     def sig_tidal_vol(self, signal):
+        vol_up = self.volume(
+            sum([x for x in signal if x > 0])/len([x for x in signal if x > 0]))
+        vol_down = self.volume(
+            sum([x for x in signal if x < 0])/len([x for x in signal if x < 0]))
 
-        return round((sum([x for x in signal if x > 0])/len([x for x in signal if x > 0]))+(-1*(sum([x for x in signal if x < 0])/len([x for x in signal if x < 0]))), 2)
+        return round(vol_up+(-1)*vol_down, 5)
 
     def sig_inspiratory_time(self, signal, sr):
 
-        return round(len([x for x in signal if x < 0])/int(sr), 2)
+        return round(len([x for x in signal if x < 0])/int(sr), 5)
+
+    def sig_expiratory_time(self, signal, sr):
+
+        return round(len([x for x in signal if x > 0])/int(sr), 2)
+
+    def sig_inspiratory_flow_rate(self, signal, sr):
+        vol_down = self.volume(
+            sum([x for x in signal if x < 0])/len([x for x in signal if x < 0]))
+        return -1*round(vol_down/self.sig_inspiratory_time(signal, sr), 5)
+
+    def sig_expiratory_flow_rate(self, signal, sr):
+        vol_up = self.volume(
+            sum([x for x in signal if x > 0])/len([x for x in signal if x > 0]))
+        return round(vol_up/self.sig_inspiratory_time(signal, sr), 5)
