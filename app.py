@@ -39,3 +39,9 @@ print(feature.sig_expiratory_time(w[0], 351.2))
 print(feature.sig_tidal_vol(w[2]))
 
 print(feature.sig_inspiratory_flow_rate(w[0], 351.2))
+
+y = Spiro.dummy_data(500, 0.05)
+# Plot the original sine wave and the noisy signal
+plt.plot(y)
+plt.legend()
+plt.show()

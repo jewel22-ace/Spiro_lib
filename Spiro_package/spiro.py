@@ -12,6 +12,7 @@ import serial
 import time
 import pandas as pd
 import scipy.signal
+import numpy as np
 
         
 class Spiro :
@@ -369,6 +370,32 @@ class Spiro :
         import serial.tools.list_ports
         myports = [tuple(p) for p in list(serial.tools.list_ports.comports())]
         return myports
+    
+
+    def dummy_data(self,size=500,noise=0.1):
+         
+        """
+        
+        dummy_data()
+        
+        =>function to get dummy data .
+        
+        :return: dummy data.
+        :rtype: []
+        
+        """
+
+        t = np.linspace(0, 1*np.pi, size)
+
+        # Generate sine wave
+        f = 2  # frequency of sine wave
+        y = np.sin(1*np.pi*f*t)
+
+        # Add noise to the signal
+        noise = noise * np.random.normal(size=len(t))
+        y_noise = y + noise
+        return y_noise
+
     
     
 
