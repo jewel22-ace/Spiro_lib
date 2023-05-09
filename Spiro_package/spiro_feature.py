@@ -353,6 +353,8 @@ class Spiro_feature:
         return energy
 
     def sig_rms(self, signal, frame, hop):
+
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         rmse = librosa.feature.rms(
             y=signal, frame_length=frame, hop_length=hop, center=True)
@@ -361,7 +363,7 @@ class Spiro_feature:
     def sig_mfccs(self, signal, sr):
 
         # returns 13 features
-
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         mfccs = librosa.feature.mfcc(y=signal, n_mfcc=13, sr=sr)
         delta_mfccs = librosa.feature.delta(mfccs, mode='constant')
@@ -382,53 +384,63 @@ class Spiro_feature:
         return entropy_value
 
     def sig_spectral_bandwidth(self, signal, sr):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         spectral_bandwidth = librosa.feature.spectral_bandwidth(
-            y=signal, sr=sr)
+            y=signal, sr=float(sr))
         return spectral_bandwidth[0]
 
     def sig_central_centroid(self, signal, sr):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         spectral_centroid = librosa.feature.spectral_centroid(y=signal, sr=sr)
         return spectral_centroid[0]
 
     def sig_spectral_rolloff(self, signal, sr):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         spectral_rolloff = librosa.feature.spectral_rolloff(y=signal, sr=sr)
         return spectral_rolloff[0]
 
     def sig_zero_crossing(self, signal):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         zero_crossings = librosa.zero_crossings(y=signal)
         return sum(zero_crossings)
 
     def sig_zero_crossing_rate(self, signal):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         zcrs = librosa.feature.zero_crossing_rate(y=signal)
         return zcrs[0]
 
     def sig_tempo(self, signal, sr):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         tempo = librosa.feature.tempo(y=signal, sr=sr)
         return tempo
 
     def sig_spectral_bandwidth(self, signal, sr):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         spectral_bandwidth = librosa.feature.spectral_bandwidth(
             y=signal, sr=sr)
         return spectral_bandwidth
 
     def sig_spectral_contrast(self, signal, sr):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         spectral_contrast = librosa.feature.spectral_contrast(y=signal, sr=sr)
         return spectral_contrast
 
     def sig_spectral_flatness(self, signal):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         spectral_flatness = librosa.feature.spectral_flatness(y=signal)
         return spectral_flatness
 
     def sig_spectral_rolloff(sefl, signal, sr):
+        signal = [float(x) for x in signal]
         signal = np.array(signal)
         spectral_rolloff = librosa.feature.spectral_rolloff(y=signal, sr=sr)
         return spectral_rolloff
