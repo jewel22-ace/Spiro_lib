@@ -9,18 +9,26 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn import preprocessing
 from sklearn import utils
+# Reading data
 dataset = pd.read_csv('features_data_1.csv')
+# Getting only the features data
 X = dataset.iloc[:, :-1].values
 
+# Setting target Variable that is COPD or Not.
 y = dataset.iloc[:, -1].values
 
+# Scaling Data
 scaler = StandardScaler()
 scaler.fit(X)
 scaled_data = scaler.transform(X)
 print(scaled_data)
+
+# Applying PCA
 pca = PCA(n_components=2)
 pca.fit(scaled_data)
 x_pca = pca.transform(scaled_data)
+
+# Results
 print(scaled_data.shape)
 print(x_pca.shape)
 print(pca.explained_variance_ratio_)
